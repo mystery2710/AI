@@ -1,6 +1,3 @@
-# A* Algorithm - 8 Puzzle Problem
-# Goal State: 1 2 3 / 4 5 6 / 7 8 0  (0 = blank)
-
 import heapq
 
 GOAL = (1, 2, 3, 4, 5, 6, 7, 8, 0)
@@ -18,9 +15,9 @@ def get_neighbors(state):
     blank = state.index(0)
 
     moves = {
-        0: [1, 3],    1: [0, 2, 4],    2: [1, 5],
+        0: [1, 3], 1: [0, 2, 4], 2: [1, 5],
         3: [0, 4, 6], 4: [1, 3, 5, 7], 5: [2, 4, 8],
-        6: [3, 7],    7: [4, 6, 8],    8: [5, 7]
+        6: [3, 7], 7: [4, 6, 8], 8: [5, 7]
     }
 
     for move in moves[blank]:
@@ -31,20 +28,18 @@ def get_neighbors(state):
     return neighbors
 
 def get_move_direction(prev, curr):
-    # Find which direction the blank moved
     blank_prev = list(prev).index(0)
     blank_curr = list(curr).index(0)
     diff = blank_curr - blank_prev
-    if diff == -3: return "UP    (blank moved up)"
-    if diff ==  3: return "DOWN  (blank moved down)"
-    if diff == -1: return "LEFT  (blank moved left)"
-    if diff ==  1: return "RIGHT (blank moved right)"
+    if diff == -3: return "UP"
+    if diff == 3: return "DOWN"
+    if diff == -1: return "LEFT"
+    if diff == 1: return "RIGHT"
     return "Unknown"
 
 def get_moved_tile(prev, curr):
-    # Find which tile was slid into the blank
     blank_prev = list(prev).index(0)
-    return curr[blank_prev]   # tile that came into old blank spot
+    return curr[blank_prev]
 
 def astar(start):
     heap = [(heuristic(start), 0, start, [])]
@@ -76,58 +71,32 @@ def print_state(state):
         print("|", ' '.join(str(x) if x != 0 else '_' for x in row), "|")
     print("+-------+")
 
-# ── Take Input from User ──────────────────────────────────
-print("Enter the start state row by row.")
-print("Use 0 for the blank tile. Example: 1 2 3")
-print()
-
 tiles = []
 for i in range(3):
-    row = input(f"Row {i+1}: ").split()
+    row = input().split()
     tiles.extend([int(x) for x in row])
 
 start = tuple(tiles)
 
-print("\nStart State:")
 print_state(start)
-print("Goal State:")
 print_state(GOAL)
-
-print(f"\nMisplaced tiles in start state : {heuristic(start)}")
-print(f"(This is the initial h value — how far we are from goal)\n")
 
 path = astar(start)
 
 if path:
-    total_moves = len(path) - 1
-    print(f"Solution found in {total_moves} moves!\n")
-    print("=" * 30)
-
     for step, state in enumerate(path):
-        g = step                        # cost so far
-        h = heuristic(state)            # misplaced tiles
-        f = g + h                       # total estimated cost
+        g = step
+        h = heuristic(state)
+        f = g + h
 
-        print(f"\nStep {step}:")
+        print(f"Step {step}")
+        print(f"g={g}, h={h}, f={f}")
 
-        if step == 0:
-            print(f"  >> This is the START state.")
-        else:
+        if step > 0:
             prev = path[step - 1]
-            direction  = get_move_direction(prev, state)
-            moved_tile = get_moved_tile(prev, state)
-            print(f"  >> Move : {direction}")
-            print(f"  >> Tile {moved_tile} was slid into the blank space.")
-
-        print(f"  >> g(n) = {g}  (moves made so far)")
-        print(f"  >> h(n) = {h}  (misplaced tiles remaining)")
-        print(f"  >> f(n) = {f}  (g + h = total estimated cost)")
-
-        if h == 0:
-            print(f"  >> h = 0 means we reached the GOAL STATE!")
+            print(get_move_direction(prev, state))
+            print(get_moved_tile(prev, state))
 
         print_state(state)
-        print("-" * 30)
-
 else:
-    print("No solution found!")
+    print("No solution found")
