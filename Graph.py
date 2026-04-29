@@ -1,5 +1,3 @@
-# Graph Coloring — Backtracking + B&B
-
 def is_safe(node, color, assignment, graph):
     for neighbor in graph[node]:
         if assignment.get(neighbor) == color:
