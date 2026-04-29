@@ -1,5 +1,3 @@
-# N-Queens Problem
-
 def solve_n_queens(n):
     col_used = [False] * n
     diag1_used = [False] * (2 * n - 1)
