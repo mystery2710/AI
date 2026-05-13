@@ -1,0 +1,87 @@
+#EXPERT SYSTEM - Employee Performance Evaluation System 
+
+def evaluate_employee():
+    print("=== Employee Performance Evaluation System ===\n")
+
+    name = input("Enter Employee Name: ")
+
+    # Inputs
+    punctuality = int(input("Rate punctuality (1-10): "))
+    teamwork = int(input("Rate teamwork (1-10): "))
+    productivity = int(input("Rate productivity (1-10): "))
+    communication = int(input("Rate communication skills (1-10): "))
+    innovation = int(input("Rate innovation (1-10): "))
+
+    # Weighted scoring (expert knowledge)
+    score = (
+        punctuality * 0.15 +
+        teamwork * 0.20 +
+        productivity * 0.30 +
+        communication * 0.20 +
+        innovation * 0.15
+    )
+
+    # Base evaluation
+    if score >= 8:
+        performance = "Excellent"
+    elif score >= 6:
+        performance = "Good"
+    elif score >= 4:
+        performance = "Average"
+    else:
+        performance = "Poor"
+
+    # Expert Rules (Knowledge Base)
+    suggestions = []
+
+    if productivity >= 9 and innovation >= 8:
+        suggestions.append("Eligible for promotion or leadership role")
+
+    if teamwork < 5:
+        suggestions.append("Needs teamwork improvement training")
+
+    if communication < 5:
+        suggestions.append("Improve communication skills")
+
+    if punctuality < 5:
+        suggestions.append("Work on punctuality and discipline")
+
+    if score < 5:
+        suggestions.append("Overall performance improvement plan required")
+
+    # Final Output
+    print("\n=== Evaluation Result ===")
+    print("Employee Name:", name)
+    print("Final Score:", round(score, 2))
+    print("Performance Level:", performance)
+
+    print("\nExpert Suggestions:")
+    if suggestions:
+        for s in suggestions:
+            print("-", s)
+    else:
+        print("- Keep up the good work!")
+
+
+# Run system
+evaluate_employee()
+
+
+#OUTPUT
+=== Employee Performance Evaluation System ===
+
+Enter Employee Name: Sanjana
+Rate punctuality (1-10): 6
+Rate teamwork (1-10): 4
+Rate productivity (1-10): 9
+Rate communication skills (1-10): 5
+Rate innovation (1-10): 8
+
+=== Evaluation Result ===
+Employee Name: Sanjana
+Final Score: 6.85
+Performance Level: Good
+
+Expert Suggestions:
+- Eligible for promotion or leadership role
+- Needs teamwork improvement training
